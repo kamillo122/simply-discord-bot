@@ -5,6 +5,19 @@ const prefix = "!";
 
 const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES"] });
 
+const connection = mysql.createConnection({
+	host: "kamiloukamilo.mysql.db",
+	user: "kamiloukamilo",
+	password: "",
+	database: "kamiloukamilo",
+});
+connection.connect((err) => {
+	if (err) {
+		throw err;
+	}
+	console.log("Connected to the MySQL server.");
+});
+
 client.on("messageCreate", async function (message) {
 	if (message.author.bot) {
 		return;
@@ -16,18 +29,6 @@ client.on("messageCreate", async function (message) {
 	const args = commandBody.split(" ");
 	const command = args.shift().toLowerCase();
 	if (command === "assign") {
-		const connection = mysql.createConnection({
-			host: "mysql.ct8.pl",
-			user: "m28252_margo",
-			password: "I1udrg12",
-			database: "m28252_margo",
-		});
-		connection.connect((err) => {
-			if (err) {
-				throw err;
-			}
-			console.log("Connected to the MySQL server.");
-		});
 		const sqlQuery = `SELECT * FROM user WHERE id = '${args[0]}'`;
 		connection.query(sqlQuery, (err, result) => {
 			if (err) {
@@ -47,18 +48,6 @@ client.on("messageCreate", async function (message) {
 			}
 		});
 	} else if (command === "countmaps") {
-		const connection = mysql.createConnection({
-			host: "mysql.ct8.pl",
-			user: "m28252_margo",
-			password: "I1udrg12",
-			database: "m28252_margo",
-		});
-		connection.connect((err) => {
-			if (err) {
-				throw err;
-			}
-			console.log("Connected to the MySQL server.");
-		});
 		const sqlQuery = `SELECT * FROM maps`;
 		connection.query(sqlQuery, (err, result) => {
 			if (err) {
